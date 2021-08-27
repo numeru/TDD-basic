@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# Testing Library
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- DOM 테스팅 라이브러리
+- 실제 DOM 노드에서 작동한다.
 
-## Available Scripts
+<br />
 
-In the project directory, you can run:
+## 1. Render
 
-### `yarn start`
+- 리액트 컴포넌트를 화면에 표시한다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 1. query
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- ...LabelText,
+  ...PlaceholderText,
+  ...Text,
+  ...DisplayValue,
+  ...AltText,
+  ...Title,
+  ...Role,
+  ...TestId 순으로 사용하는 것을 권장한다.
 
-### `yarn test`
+#### 1. getBy
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- getBy\* 로 시작하는 쿼리는 조건에 일치하는 DOM 엘리먼트 하나를 선택한다. 없으면 에러가 발생한다.
 
-### `yarn build`
+#### 2. getAllBy
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- getAllBy\* 로 시작하는 쿼리는 조건에 일치하는 DOM 엘리먼트 여러개를 선택한다. 하나도 없으면 에러가 발생한다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 3. queryBy
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- queryBy\* 로 시작하는 쿼리는 조건에 일치하는 DOM 엘리먼트 하나를 선택한다. 존재하지 않아도 에러가 발생하지 않는다.
 
-### `yarn eject`
+#### 4. queryAllBy
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- queryAllBy\* 로 시작하는 쿼리는 조건에 일치하는 DOM 엘리먼트 여러개를 선택한다. 존재하지 않아도 에러가 발생하지 않는다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### 5. findBy
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- findBy\* 로 시작하는 쿼리는 조건에 일치하는 DOM 엘리먼트 하나가 나타날 때 까지 기다렸다가 해당 DOM 을 선택하는 Promise 를 반환한다. 기본 timeout 인 4500ms 이후에도 나타나지 않으면 에러가 발생한다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### 6. findAllBy
 
-## Learn More
+- findBy\* 로 시작하는 쿼리는 조건에 일치하는 DOM 엘리먼트 여러개가 나타날 때 까지 기다렸다가 해당 DOM 을 선택하는 Promise 를 반환한다. 기본 timeout 인 4500ms 이후에도 나타나지 않으면 에러가 발생한다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+const { getByLabelText, queryAllByTestId } = render(<Component />);
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br />
 
-### Code Splitting
+### 2. container
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 렌더링된 리액트 컴포넌트에서 화면에 표시되는 부분을 담고 있는 오브젝트이다.
+- document.body 를 기본값으로 한다.
+- 일반적인 DOM 노드 이므로 container.querySelector 등으로 호출할 수 있다.
+- 가급적 쿼리로 사용하지 않는다.
 
-### Analyzing the Bundle Size
+```js
+const { container } = render(<Component />);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<br />
 
-### Making a Progressive Web App
+### 3. rerender
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- props이 업데이트 되는 등의 상황에서 컴포넌트를 다시 렌더링 시킨다.
 
-### Advanced Configuration
+```js
+const { rerender } = render(<NumberDisplay number={1} />);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+rerender(<NumberDisplay number={2} />);
+```
 
-### Deployment
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 4. unmount
 
-### `yarn build` fails to minify
+- 렌더링된 컴포넌트를 언마운드 되도록 한다.
+- 컴포넌트가 페이지에서 없어진 후의 상황을 테스트 할 때 사용된다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```js
+const { container, unmount } = render(<Login />);
+
+unmount();
+```
