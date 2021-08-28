@@ -147,3 +147,18 @@ waitForElementToBeRemoved(document.querySelector('div.getOuttaHere')).then(() =>
   console.log('Element no longer in DOM'),
 )
 ```
+
+### 4. axios-mock-adapter
+
+```js
+import MockAdapter from 'axios-mock-adapter';
+
+describe('<UserProfile />', () => {
+  const mock = new MockAdapter(axios, { delayResponse: 200 }); // 200ms 가짜 딜레이 설정
+
+  // API 요청에 대하여 응답 미리 정하기
+  mock.onGet('https://jsonplaceholder.typicode.com/users/1').reply(200, result);
+
+  // ...
+});
+```
