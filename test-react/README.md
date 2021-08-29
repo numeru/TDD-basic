@@ -1,6 +1,6 @@
 # Test React
 
-## 1. 순서
+## 1. 과정
 
 ### 1. Red
 
@@ -14,7 +14,7 @@
 
 - 해당 코드를 리팩토링 한다.
 
-<br />
+---
 
 ## 2. 적용
 
@@ -191,3 +191,42 @@ describe('<Form />', () => {
 <br />
 
 ### 6. 추후 코드가 바뀌더라도 기존의 테스트 코드를 통해 기능이 정상적으로 작동하는지 확인할 수 있다.
+
+---
+
+## 그외
+
+### 1. test router
+
+```ts
+describe('<App />', () => {
+  it('renders component correctly', () => {
+    const history = createMemoryHistory();
+    history.push('/');
+
+     const TestComponent = (): JSX.Element => {
+      const { pathname } = useLocation();
+      return <div>{pathname}</div>;
+    };
+
+    const { container } = render(
+      <Router history={history}>
+        <TestComponent />
+        <App />
+      </Router>,
+    );
+
+    const url = screen.getByText('/');
+   // ...
+  });
+```
+
+<br />
+
+### 2. test style
+
+```ts
+expect(parent).toHaveStyleRule('background-color', 'black', {
+  modifier: ':hover',
+});
+```
