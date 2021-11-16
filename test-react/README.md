@@ -230,3 +230,10 @@ expect(parent).toHaveStyleRule('background-color', 'black', {
   modifier: ':hover',
 });
 ```
+
+---
+
+## 팁
+
+- 구현 세부 내용을 테스트 하는 것은 무의미하다.
+- 개별 기능을 모두 각각 테스트 하기 보다 하나의 사용 사례를 테스트한다.

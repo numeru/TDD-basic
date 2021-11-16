@@ -11,13 +11,13 @@
 
 ### 1. query
 
-- ...LabelText,
+- ...Role,
+  ...LabelText,
   ...PlaceholderText,
   ...Text,
   ...DisplayValue,
   ...AltText,
   ...Title,
-  ...Role,
   ...TestId 순으로 사용하는 것을 권장한다.
 
 #### 1. getBy
