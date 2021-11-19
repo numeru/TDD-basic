@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
+import OrderPage from './pages/order';
 
 function App() {
   return (
-    <div className="App">
-      <>app</>
+    <div>
+      <OrderPage />
     </div>
   );
 }
