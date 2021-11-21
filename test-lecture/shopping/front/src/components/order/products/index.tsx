@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
+import ProductItem from '../product-item';
 
-type Product = {
+export type Product = {
   name: string;
   imagePath: string;
 };
@@ -9,6 +10,14 @@ type Product = {
 const Products = () => {
   const [items, setItems] = useState<Product[]>([]);
   const [error, setError] = useState(false);
+
+  const [priceOfItem, setPriceOfItem] = useState<number[]>([0, 0, 0, 0]);
+
+  const totalPrice = useMemo(
+    () => priceOfItem.reduce((a, b) => a + b, 0) * 1000,
+
+    [priceOfItem]
+  );
 
   useEffect(() => {
     loadItems();
@@ -25,25 +34,16 @@ const Products = () => {
 
   return (
     <>
+      <p>Total Price : {totalPrice}</p>
       <ul>
-        {items.map((item) => {
-          return (
-            <li key={item.name}>
-              <img
-                style={{
-                  width: '20%',
-                }}
-                src={`http://localhost:5000${item.imagePath}`}
-                alt={`${item.name} product`}
-              />
-
-              <label>
-                {item.name}
-                <input type="number" min={0} defaultValue={0} />
-              </label>
-            </li>
-          );
-        })}
+        {items?.map((item, idx) => (
+          <ProductItem
+            key={item.name}
+            item={item}
+            index={idx}
+            setPriceOfItem={setPriceOfItem}
+          />
+        ))}
       </ul>
       {error && <div data-testid="error_banner">에러가 발생했습니다.</div>}
     </>
