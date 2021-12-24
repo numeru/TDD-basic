@@ -194,45 +194,6 @@ describe('<Form />', () => {
 
 ---
 
-## 그외
-
-### 1. test router
-
-```ts
-describe('<App />', () => {
-  it('renders component correctly', () => {
-    const history = createMemoryHistory();
-    history.push('/');
-
-     const TestComponent = (): JSX.Element => {
-      const { pathname } = useLocation();
-      return <div>{pathname}</div>;
-    };
-
-    const { container } = render(
-      <Router history={history}>
-        <TestComponent />
-        <App />
-      </Router>,
-    );
-
-    const url = screen.getByText('/');
-   // ...
-  });
-```
-
-<br />
-
-### 2. test style
-
-```ts
-expect(parent).toHaveStyleRule('background-color', 'black', {
-  modifier: ':hover',
-});
-```
-
----
-
 ## 팁
 
 - 구현 세부 내용을 테스트 하는 것은 무의미하다.
